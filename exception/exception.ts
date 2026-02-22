@@ -1,36 +1,19 @@
-type Success<T> = {
-  data: T;
-  err: null;
-};
-
-type Failure<E> = {
-  data: null;
-  err: E;
-};
-
-type Result<T, E = Error> = Success<T> | Failure<E>;
-
 /**
- * The utility function that wraps asynchronous functions that may throw errors.
- * It returns a {@link Result} type which can either be a {@link Success} or an {@link Failure}.
+ * A utility function to handle errors in asynchronous operations.
+ * It accepts either a promise or a function that returns a promise ({@link Thunk<T>}),
+ * and returns an object containing either the resolved data or the error ({@link Result<T, E>}).
  *
- * @param promise
- * @returns A promise that resolves to a {@link Result} type.
- * @example
- * const { data, err } = await tryCatch(fetch('https://example.com'));
- * if (err) {
- *   console.error(err.message); // err is typed as Error
- * } else {
- *   console.log(data); // data is typed as Response
- * }
+ * @param thunk Either a promise or a function that returns a promise.
+ * @returns {Promise<Result<T, E>>} An object containing either the resolved data or the error.
  */
 export async function tryCatch<T, E = Error>(
-  promise: Promise<T> | (() => Promise<T>),
+  thunk: Thunk<T>,
 ): Promise<Result<T, E>> {
-  if (promise instanceof Function) {
-    promise = promise();
+  if (thunk instanceof Function) {
+    thunk = thunk();
   }
-  return promise
+
+  return thunk
     .then((data) => ({ data, err: null }))
     .catch((err: E) => ({ data: null, err }));
 }

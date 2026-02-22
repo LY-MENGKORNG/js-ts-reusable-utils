@@ -1,20 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { tryCatch } from "./exception";
 
-type Horse = { id: number; name: string; slug: string };
-
 async function fetchHorses({ error } = { error: false }) {
   if (error) throw new Error("Failed to fetch horses");
 
-  return new Promise((resolve: (horses: Horse[]) => void) => {
-    setTimeout(() => {
-      resolve([
-        { id: 1, name: "Unicorn", slug: "🦄" },
-        { id: 2, name: "Pegasus", slug: "🐴" },
-        { id: 3, name: "Centaur", slug: "🐐" },
-      ]);
-    }, 500);
-  });
+  return [
+    { id: 1, name: "Unicorn", slug: "🦄" },
+    { id: 2, name: "Pegasus", slug: "🐴" },
+    { id: 3, name: "Centaur", slug: "🐐" },
+  ];
 }
 
 describe("🧪 Error handling", () => {
@@ -35,14 +29,6 @@ describe("🧪 Error handling", () => {
 
     expect(data2).toHaveLength(3);
     expect(err2).toBeNull();
-  });
-
-  test("✨ Should handle errors in promise function argument", async () => {
-    const { data, err } = await tryCatch(fetchHorses({ error: true }));
-
-    expect(data).toBeNull();
-    expect(err).toBeInstanceOf(Error);
-    expect(err!.message).toBe("Failed to fetch horses");
   });
 
   test("✨ Should handle errors in promise function argument", async () => {
