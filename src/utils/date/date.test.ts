@@ -1,7 +1,13 @@
 import { describe, test, expect } from "bun:test";
-import { formatDate, isValidDate } from "./date";
+import { formatDate, isLeapYear, isValidDate } from "./date";
 
 describe("📆 The utility function for formatting date", () => {
+  describe("Leap Year Check [isLeapYear]", () => {
+    test("Should verify leap year correctly", () => {
+      expect(isLeapYear(2024)).toBe(true);
+      expect(isLeapYear(2025)).toBe(false);
+    });
+  });
   describe("🔍 Date Validation [isValidDate]", () => {
     test("🚨 Should throw error for invalid format", () => {
       const format = "DD/MM";

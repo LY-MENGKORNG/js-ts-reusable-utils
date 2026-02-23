@@ -19,6 +19,24 @@ export function isValidDate(dateString: string, format: Format): boolean {
 }
 
 /**
+ * Check if a year is a leap year.
+ *
+ * @description A leap year is a calendar year that contains 366 days instead of the usual 365, with the extra day added as February 29
+ * @example
+ * isLeapYear(year) `true` if the given year is a leap year.
+ */
+export function isLeapYear(year: number) {
+  const isDivisibleBy4 = year % 4 === 0;
+  const isDivisibleBy100 = year % 100 === 0;
+  const isDivisibleBy400 = year % 400 === 0;
+
+  if (isDivisibleBy400) {
+    return true;
+  }
+  return isDivisibleBy4 && !isDivisibleBy100;
+}
+
+/**
  * Format a date according to a specified format.
  *
  * @param date Date to format
