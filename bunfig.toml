@@ -1,0 +1,4 @@
+[test]
+smol = true     # Reduce memory usage during test runs
+root = "src"    # The root directory for test files
+coverage = true
