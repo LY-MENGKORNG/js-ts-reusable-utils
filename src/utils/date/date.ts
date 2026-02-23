@@ -1,15 +1,21 @@
-export function isValidDate(dateString: string, format: Format): boolean {
-  const regexMap: Record<Format, RegExp> = {
-    "DD/MM/YYYY": /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-    "MM/DD/YYYY": /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/,
-    "YYYY-MM-DD": /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
-  };
+import { REGEX_DATE } from "../../constants/date";
 
-  if (!(format in regexMap)) {
+/**
+ * Validate a date string according to a specified format.
+ *
+ * @param dateString The string of date to validate
+ * @param format Format of the date string
+ * @returns {boolean} Whether the date string is valid according to the specified format
+ * @example
+ * isValidDate("01/01/2026", "DD/MM/YYYY"); // true
+ * isValidDate("01/01/2026", "MM/DD/YYYY"); // false
+ */
+export function isValidDate(dateString: string, format: Format): boolean {
+  if (!(format in REGEX_DATE)) {
     throw new Error(`Invalid format: ${format}`);
   }
 
-  return regexMap[format].test(dateString);
+  return REGEX_DATE[format].test(dateString);
 }
 
 /**

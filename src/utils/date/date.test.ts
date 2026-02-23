@@ -1,8 +1,8 @@
-import { describe, test, expect, mock } from "bun:test";
+import { describe, test, expect } from "bun:test";
 import { formatDate, isValidDate } from "./date";
 
 describe("📆 The utility function for formatting date", () => {
-  describe("✨ Date Validation", () => {
+  describe("🔍 Date Validation [isValidDate]", () => {
     test("🚨 Should throw error for invalid format", () => {
       const format = "DD/MM";
       // @ts-ignore
@@ -22,7 +22,7 @@ describe("📆 The utility function for formatting date", () => {
     });
   });
 
-  describe("✨ Date Formatting", () => {
+  describe("🪒 Date Formatting [formatDate]", () => {
     test("🕒 Should format date correctly", () => {
       const date = new Date("2026/10/01");
 

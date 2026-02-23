@@ -1,8 +1,22 @@
 import { describe, expect, test } from "bun:test";
 import { tryCatch } from "./asynchronous";
 
-async function fetchHorses({ error } = { error: false }) {
-  if (error) throw new Error("Failed to fetch horses");
+type Horse = {
+  id: number;
+  name: string;
+  slug: string;
+};
+
+class FetchHorsesError extends Error {
+  override cause?: unknown;
+  constructor(message: string) {
+    super(message);
+    this.name = "FetchHorsesError";
+  }
+}
+
+async function fetchHorses({ error } = { error: false }): Promise<Horse[]> {
+  if (error) throw new FetchHorsesError("Failed to fetch horses");
 
   return [
     { id: 1, name: "Unicorn", slug: "🦄" },
@@ -44,6 +58,16 @@ describe("⏳ Asynchronous handling", () => {
 
     expect(data).toBeNull();
     expect(err).toBeInstanceOf(Error);
+    expect(err!.message).toBe("Failed to fetch horses");
+  });
+
+  test("🪄 Should handle errors with the provided custom types", async () => {
+    const { data, err } = await tryCatch<Horse[], FetchHorsesError>(
+      fetchHorses({ error: true }),
+    );
+
+    expect(data).toBeNull();
+    expect(err).toBeInstanceOf(FetchHorsesError);
     expect(err!.message).toBe("Failed to fetch horses");
   });
 });
