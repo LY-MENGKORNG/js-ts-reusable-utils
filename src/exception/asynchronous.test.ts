@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { tryCatch } from "./exception";
+import { tryCatch } from "./asynchronous";
 
 async function fetchHorses({ error } = { error: false }) {
   if (error) throw new Error("Failed to fetch horses");
@@ -11,7 +11,7 @@ async function fetchHorses({ error } = { error: false }) {
   ];
 }
 
-describe("🧪 Error handling", () => {
+describe("⏳ Asynchronous handling", () => {
   test("📜 Should set the error message in response when fetching horses fails", async () => {
     const { data, err } = await tryCatch(fetchHorses({ error: true }));
 
@@ -31,7 +31,15 @@ describe("🧪 Error handling", () => {
     expect(err2).toBeNull();
   });
 
-  test("✨ Should handle errors in promise function argument", async () => {
+  test("🦾 Should handle errors in promise function argument", async () => {
+    const { data, err } = await tryCatch(fetchHorses({ error: true }));
+
+    expect(data).toBeNull();
+    expect(err).toBeInstanceOf(Error);
+    expect(err!.message).toBe("Failed to fetch horses");
+  });
+
+  test("🤞 Should handle errors in promise argument", async () => {
     const { data, err } = await tryCatch(fetchHorses({ error: true }));
 
     expect(data).toBeNull();
