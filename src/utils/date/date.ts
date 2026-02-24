@@ -1,4 +1,4 @@
-import { DATE_FORMAT_MAP } from "../../constants/date.ts";
+import { DATE_FORMAT_MAP, TIME_REGEX } from "@/constants/date";
 
 /**
  * Validate a date string according to a specified format.
@@ -37,7 +37,7 @@ export function isLeapYear(year: number): boolean {
  * @returns {string} Padded number as a string
  */
 export function pad(value: number): string {
-  return String(value).padStart(2, "0");
+  return value.toString().padStart(2, "0");
 }
 
 /**
@@ -53,7 +53,7 @@ export function pad(value: number): string {
  */
 export function formatDate(
   date: Date,
-  format: DateFormat = "DD-MM-YYYY",
+  format: DateFormat = "DD/MM/YYYY",
 ): string {
   const day = date.getDate();
   const month = date.getMonth() + 1; // Add 1 to get the correct month (0-based index)
@@ -80,4 +80,24 @@ export function getDaysInMonth(month: number, year: number): number {
   const feb = isLeapYear(year) ? 29 : 28;
   const days = [31, feb, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   return days[month - 1]!;
+}
+
+/**
+ * Format a time string in HH:MM:SS format to HHhMM format.
+ *
+ * @param {TimeString} time The time string in HH:MM:SS format
+ * @returns {string} The formatted time string in HHhMM format
+ * @example
+ * formatTimeHM("14:30:00"); // "14h30"
+ */
+export function formatTimeHM(
+  time: TimeString,
+): `${HourString}h${MinuteString}` {
+  // Run-time validation for time string format
+  if (!TIME_REGEX.test(time)) {
+    throw new Error(`Invalid time format: ${time}`);
+  }
+
+  const [HH, MM] = time.split(":") as [HourString, MinuteString];
+  return `${HH}h${MM}`;
 }

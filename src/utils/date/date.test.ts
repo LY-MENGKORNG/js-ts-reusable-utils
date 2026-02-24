@@ -2,11 +2,12 @@
 import { describe, expect, test } from "bun:test";
 import {
   formatDate,
+  formatTimeHM,
   getDaysInMonth,
   isLeapYear,
   isValidDateFormat,
   pad,
-} from "./date.ts";
+} from "./date";
 
 describe("📆 The utility function for formatting date", () => {
   describe("🎑 Leap Year Check [isLeapYear]", () => {
@@ -49,6 +50,25 @@ describe("📆 The utility function for formatting date", () => {
       expect(getDaysInMonth(2, 2025)).toBe(28); // February in a non-leap year
       expect(getDaysInMonth(1, 2026)).toBe(31); // January
       expect(getDaysInMonth(4, 2026)).toBe(30); // April
+    });
+  });
+
+  describe("⏰ Time Formatting [formatTimeHM]", () => {
+    test("🕒 Should format time correctly", () => {
+      expect(formatTimeHM("14:30:00")).toBe("14h30");
+      expect(formatTimeHM("09:15:45")).toBe("09h15");
+    });
+    test("⏰ Should throw an error for invalid time format", () => {
+      // @ts-expect-error
+      expect(() => formatTimeHM("14:30")).toThrow("Invalid time format: 14:30");
+      // @ts-expect-error
+      expect(() => formatTimeHM("14:30:00:00")).toThrow(
+        "Invalid time format: 14:30:00:00",
+      );
+      // @ts-expect-error
+      expect(() => formatTimeHM("hi-mom")).toThrow(
+        "Invalid time format: hi-mom",
+      );
     });
   });
 });
