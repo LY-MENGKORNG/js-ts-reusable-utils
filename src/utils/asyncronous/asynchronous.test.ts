@@ -1,6 +1,6 @@
 // @ts-ignore
 import { describe, expect, test } from "bun:test";
-import { tryCatch } from "./asynchronous";
+import { tryCatch } from "./asynchronous.ts";
 
 type Horse = {
   id: number;

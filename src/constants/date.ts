@@ -1,27 +1,61 @@
 export const DATE_FORMAT_MAP: Readonly<DateFormatMap> = {
-  "dd/MM/yyyy": {
-    regex: /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+  // DAY/MONTH/YEAR
+  "DD/MM/YYYY": {
+    regex: /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
     separator: "/",
-    order: [(p) => p.day, (p) => p.month, (p) => p.year],
+    parser: (matcher) => ({
+      day: +matcher[1]!,
+      month: +matcher[2]!,
+      year: +matcher[3]!,
+    }),
   },
-  "dd-MM-yyyy": {
-    regex: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
+  "DD-MM-YYYY": {
+    regex: /^(0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
     separator: "-",
-    order: [(p) => p.day, (p) => p.month, (p) => p.year],
+    parser: (matcher) => ({
+      day: +matcher[1]!,
+      month: +matcher[2]!,
+      year: +matcher[3]!,
+    }),
   },
-  "MM/dd/yyyy": {
-    regex: /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/,
+
+  // MONTH/DAY/YEAR
+  "MM/DD/YYYY": {
+    regex: /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/,
     separator: "/",
-    order: [(p) => p.month, (p) => p.day, (p) => p.year],
+    parser: (matcher) => ({
+      month: +matcher[1]!,
+      day: +matcher[2]!,
+      year: +matcher[3]!,
+    }),
   },
-  "yyyy/MM/dd": {
-    regex: /^\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])$/,
-    separator: "/",
-    order: [(p) => p.year, (p) => p.month, (p) => p.day],
-  },
-  "yyyy-MM-dd": {
-    regex: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
+  "MM-DD-YYYY": {
+    regex: /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])-\d{4}$/,
     separator: "-",
-    order: [(p) => p.year, (p) => p.month, (p) => p.day],
+    parser: (matcher) => ({
+      month: +matcher[1]!,
+      day: +matcher[2]!,
+      year: +matcher[3]!,
+    }),
+  },
+
+  // YEAR/MONTH/DAY
+  "YYYY/MM/DD": {
+    regex: /^\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/,
+    separator: "/",
+    parser: (matcher) => ({
+      year: +matcher[1]!,
+      month: +matcher[2]!,
+      day: +matcher[3]!,
+    }),
+  },
+  "YYYY-MM-DD": {
+    regex: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/,
+    separator: "-",
+    parser: (matcher) => ({
+      year: +matcher[1]!,
+      month: +matcher[2]!,
+      day: +matcher[3]!,
+    }),
   },
 };

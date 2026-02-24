@@ -1,10 +1,23 @@
 /** Date format pattern */
 type DateFormat =
-  | "dd/MM/yyyy"
-  | "MM/dd/yyyy"
-  | "yyyy-MM-dd"
-  | "yyyy/MM/dd"
-  | "dd-MM-yyyy";
+  | "DD/MM/YYYY"
+  | "DD-MM-YYYY"
+  | "MM/DD/YYYY"
+  | "MM-DD-YYYY"
+  | "YYYY/MM/DD"
+  | "YYYY-MM-DD";
+
+type DayString = `${number}${number}`;
+type MonthString = `${number}${number}`;
+type YearString = `${number}${number}${number}${number}`;
+
+/** The string of accepted date */
+type DateString =
+  | `${DayString}/${MonthString}/${YearString}`
+  | `${MonthString}/${DayString}/${YearString}`
+  | `${YearString}-${MonthString}-${DayString}`
+  | `${YearString}/${MonthString}/${DayString}`
+  | `${DayString}-${MonthString}-${YearString}`;
 
 type ParseSuccess = { valid: true; date: Date };
 type ParseFailure = { valid: false; error: string };
@@ -17,10 +30,11 @@ type DateSegment = "day" | "month" | "year";
 type DateSeparator = "/" | "-";
 
 type DateFormatEntry = {
-  regex: RegExp;
   separator: DateSeparator;
-  /** The order of the date segments in the format. */
-  order: Array<(date: DateParts) => string>;
+  regex: RegExp;
+  parser: (
+    matcher: RegExpMatchArray,
+  ) => { day: number; month: number; year: number };
 };
 
 /**
@@ -36,12 +50,19 @@ type DateFormatMap = Record<DateFormat, DateFormatEntry>;
  */
 type DateParts = {
   /** The day part of the date. */
-  day: string;
+  day: number;
   /** The month part of the date. */
-  month: string;
+  month: number;
   /** The year part of the date. */
-  year: string;
+  year: number;
 };
 
 /** The input type for date */
 type DateInput = Date | string | number;
+
+class InvalidDateStringError extends Error {
+  constructor(dateStr: DateString) {
+    super(`Invalid date string: ${dateStr}. No matching format found.`);
+    this.name = "InvalidDateStringError";
+  }
+}
