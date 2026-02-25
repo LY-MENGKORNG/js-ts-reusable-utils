@@ -4,7 +4,8 @@ This is a collection of reusable utilities for Javascript and Typescript
 functionalities. You can just copy and paste the code snippets into your
 project, and it will work! **(trust me! 😆)**.
 
-> :warning: **Warning** If you're using just JavaScript specific, you can remove the type anotations. But make sure that everything work correctly!
+> :warning: **Warning** If you're using just JavaScript specific, you can remove
+> the type anotations. But make sure that everything work correctly!
 
 ## Prerequisites (_If you would like to test_)
 

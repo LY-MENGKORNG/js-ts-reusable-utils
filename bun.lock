@@ -6,6 +6,7 @@
       "name": "js-ts-reusable-utils",
       "devDependencies": {
         "@types/bun": "^1.3.9",
+        "@types/node": "^25.3.0",
       },
       "peerDependencies": {
         "typescript": "^5",

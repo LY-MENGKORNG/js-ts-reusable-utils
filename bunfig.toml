@@ -3,4 +3,8 @@ smol = true                                      # Reduce memory usage during te
 root = "."                                       # The root directory for test files
 coverage = true
 coverageThreshold = 0.9                          # to require 90% line-level and function-level coverage
-coveragePathIgnorePatterns = ["**/constants/**"] # Ignore all non-test files
+coveragePathIgnorePatterns = [                   # Ignore all non-test files
+  "**/constants/**",
+  "**/types/**",
+  "**/helper/**"
+]

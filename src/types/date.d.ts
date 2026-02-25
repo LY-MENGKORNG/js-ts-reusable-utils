@@ -32,9 +32,6 @@ type DateSeparator = "/" | "-";
 type DateFormatEntry = {
   separator: DateSeparator;
   regex: RegExp;
-  parser: (
-    matcher: RegExpMatchArray,
-  ) => { day: number; month: number; year: number };
 };
 
 /**
